@@ -1,2 +1,2 @@
 # fragments2codes
-ragmentys de codes utiles... ou pas :D
+Fragmentys de codes souvent utiles...et parfois pas :D

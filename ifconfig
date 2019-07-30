@@ -1,0 +1,65 @@
+#/bin/sh
+#01.04.2019
+#CHORFA A.
+# Formatte ifconfig pour plus de lisibilité
+
+c_titre='\033[1;33m'
+c_titre2='\033[1;31m'
+c_stitre='\033[0;33m'
+c_texte='\033[3;37m'
+c_ip='\033[3;36m'
+c_mac='\033[3;34m'
+c_paquets='\033[1;30m'
+c_reset='\033[0m'
+
+fichierTemporaire='/mnt/ifconfig.perso.tmp'
+#ifconfig
+#echo "------------------------------"
+ifconfig>$fichierTemporaire
+
+while read ligne; do
+
+	nomCarte=$(echo $ligne|egrep 'flags='|cut -d ":" -f 1)
+	adresseIP=$(echo $ligne|grep 'inet '|cut -d " " -f 2)
+	netmask=$(echo $ligne|grep 'inet '|cut -d " " -f 4)
+	broadcast=$(echo $ligne|grep 'inet '|cut -d " " -f 6)
+	adresseMAC=$(echo $ligne|egrep 'ether'|cut -d " " -f 2)
+	mtu=$(echo $ligne|egrep 'mtu'|cut -d " " -f 4)
+	
+	RX=$(echo $ligne|egrep 'RX packets')
+	RXpaquets=$(echo $RX|cut -d " " -f 3)
+	RXbytes=$(echo $RX|cut -d " " -f 6-)
+	#|cut -d "(" -f 2|cut -d ")" -f 1
+	TX=$(echo $ligne|egrep 'RX packets')
+	TXpaquets=$(echo $TX|cut -d " " -f 3)
+	TXbytes=$(echo $TX|cut -d " " -f 6-)
+
+	if [ ${#nomCarte} -gt 0 ] ; then
+		echo -en ' \n'
+		echo -e $c_titre'►Nom de la carte= '$c_titre2''$nomCarte''$c_reset
+	fi
+	if [ ${#adresseIP} -gt 0 ] ; then
+		echo -e $c_stitre'►Adresse IP= '$c_ip''$adresseIP''$c_reset
+	fi
+	if [ ${#netmask} -gt 0 ] ; then
+		echo -e $c_stitre'►Masque réseau= '$c_ip''$netmask''$c_reset
+	fi
+	if [ ${#broadcast} -gt 0 ] ; then
+		echo -e $c_stitre'►Adresse de broadcast= '$c_ip''$broadcast''$c_reset
+	fi
+	if [ ${#adresseMAC} -gt 0 ] ; then
+		echo -e $c_stitre'►Adresse MAC= '$c_mac''$adresseMAC''$c_reset
+	fi
+	if [ ${#mtu} -gt 0 ] ; then
+		echo -e $c_stitre'►MTU= '$c_texte''$mtu''$c_reset
+	fi
+
+
+	if [ ${#RXpaquets} -gt 0 ] ; then
+		echo -e $c_stitre'►Reception (RX)= '$c_paquets''$RXpaquets' paquets '$RXbytes''$c_reset
+	fi
+	if [ ${#TXpaquets} -gt 0 ] ; then
+		echo -e $c_stitre'►Transmission (TX)= '$c_paquets''$TXpaquets' paquets '$TXbytes''$c_reset
+	fi
+
+done < $fichierTemporaire

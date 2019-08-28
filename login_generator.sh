@@ -15,7 +15,6 @@ separateur_infos="\n...___...___...___...___...___...___...___...___...___...___
 liste_separateurs=".,-,_"
 liste_domaines="hotmail.fr,hotmail.com,outlook.fr,outlook.com,hotmail.com,gmail.com,gmail.fr,msn.com,msn.fr,facebook.com,facebook.fr,yahoo.fr,yahoo.com"
 liste_domaines=$liste_domaines",laposte.net,wanadoo.fr,wanadoo.com,sfr.fr,red.fr,red.com,free.fr,aol.fr,orange.fr,orange.com,sosh.com,sosh.fr,bouygues.com,bbtel.com"
-#liste_domaines=$liste_domaines",neocles.com,neocles.fr"
 
 
 destination=$1
